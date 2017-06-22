@@ -1,0 +1,31 @@
+[
+    "!" "Welt" "Hallo" " " swap
+    3 [out] rep outl
+    4
+
+    "" outl
+
+    [ dup 3 < ] ! [
+        "3 ist kleiner als " out outl
+        pop
+    ] if
+
+    "" outl
+
+    10 6 9 73 3 22 2 4
+
+    [ dup 2 swap % 0 == ] [
+        " ist gerade!" swap out outl
+    ] while
+
+    "" outl
+
+    [ dup 2 swap % 0 != ] [
+        " ist ungerade!" swap out outl
+    ] while
+] test func
+
+[
+    "Rufe test auf." outl
+    test run
+] main func main run

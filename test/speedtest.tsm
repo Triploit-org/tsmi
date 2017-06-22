@@ -1,0 +1,4 @@
+[ $a 100000 > ] [
+    $a outl
+    $a 1 + a set
+] while
