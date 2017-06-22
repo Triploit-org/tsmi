@@ -1,0 +1,37 @@
+10 n set
+1 i set
+
+"======== LOOP ========" outl
+
+[ n i <= ] [
+    $i 1 + i set
+
+    "I: " out
+    $i outl
+
+    [ 2 $i == ]! dup [
+        $i 2 + i set
+        "Is 2!" outl
+        continue
+    ] if [
+        "Is not 2!" outl
+        break
+    ] else
+] while
+
+"======== FUNC ========" outl
+
+[
+    0 i set
+    10 n set
+
+    [ n i <= ] [
+        $i 1 + i set
+        "I: " out $i outl
+
+        [ 5 $i == ]! [
+            return
+        ] if
+    ] while
+] test func
+test !

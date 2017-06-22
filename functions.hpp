@@ -25,7 +25,7 @@ public:
         {
             if (name == f.name)
             {
-                Executor.execute(Lexer.lex({f.content}));
+                Executor.execute(Lexer.lex({f.content}), false, true);
                 return;
             }
         }

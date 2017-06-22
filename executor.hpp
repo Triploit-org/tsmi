@@ -8,10 +8,25 @@
 class Executor
 {
 private:
+    bool isloop = false;
+
     int parse_keyword(std::string kwd, std::vector<Token> tokens, int i)
     {
         if (kwd == "return")
+        {
+            Runtime._return = true;
             return -13;
+        }
+        else if (kwd == "break")
+        {
+            Runtime._break = true;
+            return 0;
+        }
+        else if (kwd == "continue")
+        {
+            Runtime._continue = true;
+            return 0;
+        }
 
         for (int i = 0; i < keyword_names.size(); i++)
             if (keyword_names[i] == kwd)
@@ -28,10 +43,28 @@ private:
     }
 
 public:
-    int execute(std::vector<Token> tokens)
+    int execute(std::vector<Token> tokens, bool loop, bool function)
     {
         for (int i = 0; i < tokens.size(); i++)
         {
+            if (Runtime._break)
+            {
+                return 0;
+            }
+
+            if (Runtime._continue)
+            {
+                Runtime._continue = false;
+                return 0;
+            }
+
+            if (Runtime._return)
+            {
+                if (function)
+                    Runtime._return = false;
+                return 0;
+            }
+
             if (Runtime.debug)
             {
                 if (tokens[i].getType() == TT_TO_LEX)
@@ -41,7 +74,7 @@ public:
             }
 
             // if (tokens[i].getType() == TT_LINE_NUMBER)
-            //     Runtime.line_number = std::stoi(tokens[i].getValue());
+            //     Runtime.line_number = std::stold(tokens[i].getValue());
 
             switch(tokens[i].getType())
             {
@@ -53,7 +86,7 @@ public:
                     Runtime.stack_push(StackElement(tokens[i].getValue(), true, false, false));
                     break;
                 case TT_INTEGER:
-                    Runtime.stack_push(StackElement(std::stoi(tokens[i].getValue())));
+                    Runtime.stack_push(StackElement(std::stold(tokens[i].getValue())));
                     break;
                 case TT_STRING:
                     Runtime.stack_push(StackElement(tokens[i].getValue(), false, false, false));
@@ -62,17 +95,38 @@ public:
                     Runtime.stack_push(StackElement(tokens[i].getValue(), false, true, false));
                     break;
                 default:
-                        switch(tokens[i].getType())
-                        {
-                            case TT_KEYWORD:
-                                if (parse_keyword(tokens[i].getValue(), tokens, i) == -13)
-                                    return 0;
-                                break;
-                            case TT_OPERATOR:
-                                parse_operator(tokens[i].getValue(), tokens, i);
-                                break;
-                        }
+                    // if (Runtime.debug)
+                    //     std::cout << "INTERPRETING: RUN: " << tokens[i].getValue();
+
+                    switch(tokens[i].getType())
+                    {
+                        case TT_KEYWORD:
+                            if (parse_keyword(tokens[i].getValue(), tokens, i) == -13)
+                                return 0;
+                            break;
+                        case TT_OPERATOR:
+                            parse_operator(tokens[i].getValue(), tokens, i);
+                            break;
+                    }
                     break;
+            }
+
+            if (Runtime._break)
+            {
+                return 0;
+            }
+
+            if (Runtime._continue)
+            {
+                Runtime._continue = false;
+                return 0;
+            }
+
+            if (Runtime._return)
+            {
+                if (function)
+                    Runtime._return = false;
+                return 0;
             }
         }
         return 0;

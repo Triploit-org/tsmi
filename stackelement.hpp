@@ -13,15 +13,15 @@ private:
     bool is_number(const std::string& s)
     {
         std::string::const_iterator it = s.begin();
-        while (it != s.end() && std::isdigit(*it)) ++it;
+        while (it != s.end() && (std::isdigit(*it) || *it == '.')) ++it;
         return !s.empty() && it == s.end();
     }
 
 public:
-    int getInt()
+    long double getInt()
     {
         if (is_number(value))
-            return std::stoi(value);
+            return std::stold(value);
         else
             return -1;
     }
@@ -79,7 +79,7 @@ public:
         isvariable = variable;
     }
 
-    StackElement(int val)
+    StackElement(long double val)
     {
         value = std::to_string(val);
         isint = true;

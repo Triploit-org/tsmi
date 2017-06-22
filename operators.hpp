@@ -2,6 +2,7 @@
 #define OPERATORS_HPP
 
 #include <iostream>
+#include <math.h>
 #include "functions.hpp"
 
 int __command_equals(std::vector<Token> tokens, int i)
@@ -207,7 +208,7 @@ int __command_mod(std::vector<Token> tokens, int i)
 
     if (e1.getTypeStr() == "INT" && e2.getTypeStr() == "INT")
     {
-        Runtime.stack_push(StackElement(e1.getInt()%e2.getInt()));
+        Runtime.stack_push(StackElement(fmod(e1.getInt(),e2.getInt())));
         return 0;
     }
     else

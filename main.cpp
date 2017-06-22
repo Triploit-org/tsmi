@@ -16,6 +16,8 @@ int input();
 int main(int argc, char const *argv[])
 {
     int i = 1;
+    // std::cout.precision(10);
+    // std::cout.setf(std::ios::fixed);
 
     if (argc < 2)
         input();
@@ -29,7 +31,7 @@ int main(int argc, char const *argv[])
 
         for (int c = argc-i; c >= 1; c--)
         {
-            Runtime.stack_push(StackElement(argv[c]));
+            Runtime.stack_push(StackElement(argv[c], false, false, false));
         }
 
         if (i == 2)
@@ -37,7 +39,7 @@ int main(int argc, char const *argv[])
     }
 
     Runtime.stack_push(StackElement(argc-(1+i)));
-    return Executor.execute(Lexer.lex(Runtime.readFile(Runtime.FILE_NAME)));
+    return Executor.execute(Lexer.lex(Runtime.readFile(Runtime.FILE_NAME)), false, false);
 }
 
 int input()
@@ -60,7 +62,7 @@ int input()
         }
         else
         {
-            Executor.execute(Lexer.lex({_input}));
+            Executor.execute(Lexer.lex({_input}), false, false);
         }
     }
 }

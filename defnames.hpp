@@ -60,6 +60,7 @@ int __command_set(std::vector<Token> tokens, int i);
 int __command_inp(std::vector<Token> tokens, int i);
 int __command_pick(std::vector<Token> tokens, int i);
 int __command_index(std::vector<Token> tokens, int i);
+int __command__else(std::vector<Token> tokens, int i);
 
 std::vector<std::string> keyword_names =
 {
@@ -77,7 +78,8 @@ std::vector<std::string> keyword_names =
     "!",
     "inp",
     "pick",
-    "index"
+    "index",
+    "else"
 };
 
 int (*keyword_functions[])(std::vector<Token> tokens, int i) =
@@ -96,7 +98,8 @@ int (*keyword_functions[])(std::vector<Token> tokens, int i) =
     &__command_run,
     &__command_inp,
     &__command_pick,
-    &__command_index
+    &__command_index,
+    &__command__else
 };
 
 #endif

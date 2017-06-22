@@ -129,7 +129,6 @@ public:
                     std::cout << "LEX: \"" << tmp << "\"" << std::endl;
                 tokens.push_back(Token(tmp.substr(0, tmp.size()-1), TT_TO_LEX));
                 tmp = "";
-                continue;
             }
 
             if (ncode[i] == '!')
@@ -148,8 +147,11 @@ public:
 
                 if (Runtime.debug)
                     std::cout << "LEX: \"" << tmp << "\"" << std::endl;
-                tokens.push_back(Token(std::string(1, ncode[i]), TT_KEYWORD));
 
+                if (Runtime.debug)
+                    std::cout << "LEX: \"!\"" << std::endl;
+
+                tokens.push_back(Token(std::string(1, ncode[i]), TT_KEYWORD));
                 tmp = "";
                 continue;
             }

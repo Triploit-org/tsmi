@@ -14,6 +14,10 @@ public:
     bool debug = false;
     int line_number = 1;
 
+    bool _continue = false;
+    bool _break = false;
+    bool _return = false;
+
     std::string FILE_NAME;
     std::string FILE_CONTENT;
 
@@ -53,11 +57,14 @@ public:
         return v;
     }
 
-    bool is_number(const std::string& s)
+    bool is_number(const std::string s)
     {
-        std::string::const_iterator it = s.begin();
-        while (it != s.end() && std::isdigit(*it)) ++it;
-        return !s.empty() && it == s.end();
+        char* endptr = 0;
+        strtod(s.c_str(), &endptr);
+
+        if(*endptr != '\0' || std::string(endptr) == s)
+            return false;
+        return true;
     }
 
     void stack_push(StackElement e)

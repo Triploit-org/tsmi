@@ -35,7 +35,10 @@ std::vector<std::string> keywords =
     "inp",
     "set",
     "pick",
-    "index"
+    "index",
+    "else",
+    "break",
+    "continue"
 };
 
 std::vector<std::string> operators =
