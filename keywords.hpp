@@ -2,7 +2,8 @@
 #define KEYWORDS_HPP
 
 #include <iostream>
-#include <iomanip>
+#include <vector>
+#include "token.hpp"
 #include "functions.hpp"
 
 int __command_pop(std::vector<Token> tokens, int i)
@@ -17,9 +18,11 @@ int __command_while(std::vector<Token> tokens, int i)
 
     if (e1.isCode() && e2.isCode())
     {
+        std::vector<Token> tokens = Lexer.lex({e2.getStr()});
+
         while (true)
         {
-            Executor.execute(Lexer.lex({e2.getStr()}), false, false);
+            Executor.execute(tokens, false, false);
             StackElement e = Runtime.stack_peek();
 
             if (!e.isInt())

@@ -28,6 +28,8 @@ int main(int argc, char const *argv[])
     {
         if (std::string(argv[argc-1]) == ".debug")
             i = 2;
+        // else if (std::string(argv[argc-1]).substr(0, 7) == ".compile")
+        //     i = 3;
 
         for (int c = argc-i; c >= 1; c--)
         {
@@ -36,6 +38,11 @@ int main(int argc, char const *argv[])
 
         if (i == 2)
             Runtime.debug = true;
+        // else if (i == 3)
+        // {
+        //     Runtime.compile = true;
+        //     Runtime.binary_file = std::string(argv[argc-1]).substr(7, std::string(argv[argc-1]).size()-1);
+        // }
     }
 
     Runtime.stack_push(StackElement(argc-(1+i)));
