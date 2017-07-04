@@ -1,6 +1,9 @@
 #ifndef DEF_NAMES_HPP
 #define DEF_NAMES_HPP
 
+#include <iostream>
+#include <vector>
+
 int __command_equals(std::vector<Token> tokens, int i);
 int __command_not_equals(std::vector<Token> tokens, int i);
 int __command_add(std::vector<Token> tokens, int i);
@@ -61,6 +64,7 @@ int __command_inp(std::vector<Token> tokens, int i);
 int __command_pick(std::vector<Token> tokens, int i);
 int __command_index(std::vector<Token> tokens, int i);
 int __command__else(std::vector<Token> tokens, int i);
+int __command_size(std::vector<Token> tokens, int i);
 
 std::vector<std::string> keyword_names =
 {
@@ -79,7 +83,8 @@ std::vector<std::string> keyword_names =
     "inp",
     "pick",
     "index",
-    "else"
+    "else",
+	"size"
 };
 
 int (*keyword_functions[])(std::vector<Token> tokens, int i) =
@@ -99,7 +104,8 @@ int (*keyword_functions[])(std::vector<Token> tokens, int i) =
     &__command_inp,
     &__command_pick,
     &__command_index,
-    &__command__else
+    &__command__else,
+    &__command_size
 };
 
 #endif

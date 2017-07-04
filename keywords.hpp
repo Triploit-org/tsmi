@@ -11,6 +11,11 @@ int __command_pop(std::vector<Token> tokens, int i)
     Runtime.stack_pop();
 }
 
+int __command_size(std::vector<Token> tokens, int i)
+{
+    Runtime.stack_push(Runtime.stack[Runtime.stack_index].size());
+}
+
 int __command_while(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();

@@ -51,8 +51,10 @@ int main(int argc, char const *argv[])
 
 int input()
 {
+	std::cout << "TSMI-Shell. Type \"help\" for help." << std::endl;
     std::string _input = "";
-    while (_input != ".quit")
+
+    while (_input != ".quit" || _input != ".q")
     {
         std::cout << "> ";
         std::getline(std::cin, _input);
@@ -67,9 +69,15 @@ int input()
                 break;
             }
         }
+		else if (_input == "help")
+		{
+			
+		}
         else
         {
             Executor.execute(Lexer.lex({_input}), false, false);
         }
     }
+
+	return 0;
 }

@@ -38,7 +38,8 @@ std::vector<std::string> keywords =
     "index",
     "else",
     "break",
-    "continue"
+    "continue",
+	"size"
 };
 
 std::vector<std::string> operators =
