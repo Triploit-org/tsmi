@@ -5,16 +5,108 @@
 #include <vector>
 #include "token.hpp"
 #include "functions.hpp"
+#include "runtime.hpp"
 
 int __command_pop(std::vector<Token> tokens, int i)
 {
     Runtime.stack_pop();
+	return 0;
 }
 
 int __command_size(std::vector<Token> tokens, int i)
 {
     Runtime.stack_push(Runtime.stack[Runtime.stack_index].size());
+	return 0;
 }
+
+int __command_type(std::vector<Token> tokens, int i)
+{
+	StackElement se = Runtime.stack_peek();
+	StackElement code = StackElement("code", true, false, false);
+	StackElement integer = StackElement("integer", true, false, false);
+	StackElement string = StackElement("string", true, false, false);
+	StackElement word = StackElement("word", true, false, false);
+	StackElement unknown = StackElement("unknown", true, false, false);
+
+	if (se.isCode())
+		Runtime.stack_push(code);
+	else if (se.isInt())
+		Runtime.stack_push(integer);
+	else if (se.isString())
+		Runtime.stack_push(string);
+	else if (se.isWord())
+		Runtime.stack_push(word);
+	else Runtime.stack_push(unknown);
+	return 0;
+}
+
+int __command_file(std::vector<Token> tokens, int i)
+{
+	int mode = 0; /*
+					0 -> Read File
+					1 -> Append File Content
+					2 -> Write File
+					3 -> Delete File
+					4 -> Exists File
+				  */
+
+	StackElement fmode = Runtime.stack_peek();
+	StackElement file = Runtime.stack_peek();
+	StackElement content;
+
+	std::ifstream inf;
+	std::ofstream of;
+
+	if (!fmode.isInt())
+	{
+		std::cout << "error: file: mode: filemode must be an integer (\"" << fmode.getStr() << "\" is not)!" << std::endl;
+		exit(1);
+	}
+	else mode = fmode.getInt();
+
+	if (!file.isString())
+	{
+		std::cout << "error: file: mode: filemode must be an string (\"" << fmode.getStr() << "\" is not)!" << std::endl;
+		exit(1);
+	}
+
+	switch (mode)
+	{
+		case 0: // Read File
+			inf.open(file.getStr());
+			Runtime.stack_push(StackElement(std::string((std::istreambuf_iterator<char>(inf)), std::istreambuf_iterator<char>())));
+			break;
+		case 1: // Append File Content
+			of.open(file.getStr(), std::ios::app | std::ios::out);
+			of << Runtime.stack_peek().getStr();
+			break;
+		case 2: // Write/Replace Complete File
+			remove(file.getStr().c_str());
+			of.open(file.getStr());
+			of << Runtime.stack_peek().getStr();
+			break;
+		case 3: // Delete File
+			if (remove(file.getStr().c_str()) != 0)
+			{
+				std::cout << "error: file: file " << file.getStr() << " not found!" << std::endl;
+				exit(1);
+			}
+			break;
+		case 4: // Exists File
+			if (std::ifstream(file.getStr()).is_open())
+				Runtime.stack_push(StackElement(1));
+			else
+				Runtime.stack_push(StackElement(0));
+			break;
+		default:
+			std::cout << "error: file: unknown mode: " << mode << std::endl;
+			exit(1);
+			break;
+	}
+
+	return 0;
+}
+
 
 int __command_while(std::vector<Token> tokens, int i)
 {
@@ -56,6 +148,7 @@ int __command_while(std::vector<Token> tokens, int i)
             std::cout << "error: while: can't run \"" << e2.getStr() << "\": is no code-scope!" << std::endl;
         exit(1);
     }
+	return 0;
 
 }
 
@@ -66,6 +159,7 @@ int __command_swap(std::vector<Token> tokens, int i)
 
     Runtime.stack_push(e1);
     Runtime.stack_push(e2);
+	return 0;
 }
 
 int __command_dup(std::vector<Token> tokens, int i)
@@ -73,6 +167,7 @@ int __command_dup(std::vector<Token> tokens, int i)
     StackElement e1 = Runtime.stack_peek();
     Runtime.stack_push(e1);
     Runtime.stack_push(e1);
+	return 0;
 }
 
 int __command_func(std::vector<Token> tokens, int i)
@@ -82,7 +177,7 @@ int __command_func(std::vector<Token> tokens, int i)
 
     if (name.isWord() && content.isCode())
     {
-        Functions.addFunction(name.getStr(), content.getStr());
+        Functions.addFunction(name.getStr(), Lexer.lex({content.getStr()}));
         // std::cout << "\nFunction \"" << name.getStr() << "\" created!" << std::endl;
     }
     else
@@ -94,6 +189,7 @@ int __command_func(std::vector<Token> tokens, int i)
 
         exit (1);
     }
+	return 0;
 }
 
 int __command_rep(std::vector<Token> tokens, int i)
@@ -118,6 +214,7 @@ int __command_rep(std::vector<Token> tokens, int i)
             Executor.execute(Lexer.lex({content.getStr()}), true, false);
         }
     }
+	return 0;
 }
 
 int __command_out(std::vector<Token> tokens, int i)
@@ -161,6 +258,7 @@ int __command_out(std::vector<Token> tokens, int i)
         std::cout << "\nOUT   >> \"";
         std::cout << "\"" << std::endl << std::endl;
     }
+	return 0;
 }
 
 int __command_outl(std::vector<Token> tokens, int i)
@@ -207,6 +305,7 @@ int __command_outl(std::vector<Token> tokens, int i)
             std::cout << se.getStr() << std::endl;
     }
 
+	return 0;
 }
 
 int __command__if(std::vector<Token> tokens, int i)
@@ -227,6 +326,8 @@ int __command__if(std::vector<Token> tokens, int i)
             std::cout << "error: if: \"" << e2.getStr() << "\" must be a number (0 or 1/false or true)!" << std::endl;
         exit(1);
     }
+
+	return 0;
 }
 
 int __command__else(std::vector<Token> tokens, int i)
@@ -247,6 +348,8 @@ int __command__else(std::vector<Token> tokens, int i)
             std::cout << "error: else: \"" << e2.getStr() << "\" must be a number (0 or 1/false or true)!" << std::endl;
         exit(1);
     }
+
+	return 0;
 }
 
 int __command_run(std::vector<Token> tokens, int i)
@@ -265,6 +368,8 @@ int __command_run(std::vector<Token> tokens, int i)
 
     // if (se.isWord())
     //     std::cout << Functions.getContent(se.getStr()) << std::endl << std::endl;
+
+	return 0;
 }
 
 int __command_set(std::vector<Token> tokens, int i)
@@ -280,6 +385,8 @@ int __command_set(std::vector<Token> tokens, int i)
     {
         std::cout << "error: set: \"" << se.getStr() << "\" must be a word" << std::endl;
     }
+
+	return 0;
 }
 
 int __command_inp(std::vector<Token> tokens, int i)
@@ -291,6 +398,8 @@ int __command_inp(std::vector<Token> tokens, int i)
         Runtime.stack_push(StackElement(std::stoi(s)));
     else
         Runtime.stack_push(StackElement(s));
+
+		return 0;
 }
 
 int __command_pick(std::vector<Token> tokens, int i)
@@ -304,6 +413,8 @@ int __command_pick(std::vector<Token> tokens, int i)
         std::cout << "error: pick: integer expected, found " << se.getTypeStr() << std::endl;
         exit(1);
     }
+
+	return 0;
 }
 
 int __command_index(std::vector<Token> tokens, int i)
@@ -320,5 +431,7 @@ int __command_index(std::vector<Token> tokens, int i)
         std::cout << "error: index: integer expected, found " << se.getTypeStr() << std::endl;
         exit(1);
     }
+
+	return 0;
 }
 #endif

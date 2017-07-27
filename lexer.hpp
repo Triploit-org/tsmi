@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "runtime.hpp"
 #include "tstring.hpp"
 #include "token.hpp"
 
@@ -55,11 +56,27 @@ public:
 
         for (std::string line : code)
         {
-            ncode += (removeCommentFromLine(line)) + "  ";
+            ncode += (removeCommentFromLine(line)) + "  \n";
         }
 
         for (int i = 0; i < ncode.size(); i++)
         {
+
+			if (ncode[i] == '*' && ncode[i+1] == '*')
+			{
+				if (Runtime.debug) std::cout << "=== COMMANT START ===" << std::endl;
+
+				i+=2;
+				while (i < ncode.size() && (ncode[i] != '*' && ncode[i+1] != '*'))
+				{
+					if (Runtime.debug) std::cout << ncode[i];
+					i++;
+				}
+				if (Runtime.debug) std::cout << "=== COMMANT END ====" << std::endl;
+				i+=2;
+				continue;
+			}
+
             if (is_ignore(ncode[i]))
             {
                 if (Runtime.debug)

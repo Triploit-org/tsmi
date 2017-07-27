@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unistd.h>
 #include "runtime.hpp"
 #include "token.hpp"
 #include "defnames.hpp"
@@ -23,6 +24,16 @@ int main(int argc, char const *argv[])
         input();
     else
         Runtime.FILE_NAME = argv[1];
+
+	std::vector<tri::string> pth = tri::string(Runtime.FILE_NAME).trim().split('/');
+	std::string path;
+
+	if (pth.size() > 1)
+	{
+		for (int i = 0; i < pth.size()-1; i++) path += pth[i].cxs();
+		Runtime.FILE_NAME = pth[pth.size()-1].cxs();
+		chdir(path.c_str());
+	}
 
     if (argc > 2)
     {
@@ -71,7 +82,7 @@ int input()
         }
 		else if (_input == "help")
 		{
-			
+
 		}
         else
         {

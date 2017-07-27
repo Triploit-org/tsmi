@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "token.hpp"
+#include "runtime.hpp"
 #include "variables.hpp"
 
 class Executor

@@ -11,7 +11,7 @@ private:
     struct function
     {
         std::string name = "";
-        std::string content = "";
+        std::vector<Token> content;
     };
 
     std::vector<std::string> names;
@@ -25,7 +25,7 @@ public:
         {
             if (name == f.name)
             {
-                Executor.execute(Lexer.lex({f.content}), false, true);
+                Executor.execute(f.content, false, true);
                 return;
             }
         }
@@ -34,7 +34,7 @@ public:
         exit(1);
     }
 
-    std::string getContent(std::string name)
+    std::vector<Token> getContent(std::string name)
     {
         for (function f : functions)
         {
@@ -45,7 +45,7 @@ public:
         }
     }
 
-    void addFunction(std::string name, std::string content)
+    void addFunction(std::string name, std::vector<Token> content)
     {
         for (function f : functions)
         {

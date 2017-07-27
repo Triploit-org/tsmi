@@ -1,0 +1,20 @@
+[ "created.test" 4 file 0 == ]! dup [
+
+	"Creating created.test..." outl
+	"This is a sample content.\n" "created.test" 2 file
+	"Appended!" "created.test" 1 file
+	"" outl
+	"Thats in the file ===================\n" outl
+	"created.test" 0 file outl
+	"\n=====================================\n" outl
+	"Finished!" outl
+	return
+
+] if [
+
+	"File \"created.test\" exists!" outl
+	"Deleting..." outl
+	"created.test" 3 file
+	"Finished!" outl
+
+] else

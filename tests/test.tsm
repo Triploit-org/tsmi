@@ -1,5 +1,8 @@
+#comment
+#need test.tsm
+
 [
-    "!" "Welt" "Hallo" " " swap
+    "!" "Welt" "Hallo" " " swap ** Hallo Welt! **
     3 [out] rep outl
     4
 

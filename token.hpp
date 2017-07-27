@@ -39,7 +39,9 @@ std::vector<std::string> keywords =
     "else",
     "break",
     "continue",
-	"size"
+	"size",
+	"type",
+	"file"
 };
 
 std::vector<std::string> operators =

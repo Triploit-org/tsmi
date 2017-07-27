@@ -4,8 +4,9 @@
 #include <iostream>
 #include <math.h>
 #include "functions.hpp"
+#include "runtime.hpp"
 
-int __command_equals(std::vector<Token> tokens, int i)
+void __command_equals(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -15,7 +16,7 @@ int __command_equals(std::vector<Token> tokens, int i)
         if (e1.getInt() == e2.getInt())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
@@ -23,7 +24,7 @@ int __command_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() == e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
@@ -31,7 +32,7 @@ int __command_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() == e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
@@ -39,7 +40,7 @@ int __command_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() == e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
@@ -47,7 +48,7 @@ int __command_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() == e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else
@@ -59,7 +60,7 @@ int __command_equals(std::vector<Token> tokens, int i)
     Runtime.stack_push(StackElement(0));
 }
 
-int __command_not_equals(std::vector<Token> tokens, int i)
+void __command_not_equals(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -69,7 +70,7 @@ int __command_not_equals(std::vector<Token> tokens, int i)
         if (e1.getInt() != e2.getInt())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
@@ -77,7 +78,7 @@ int __command_not_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() != e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
@@ -85,7 +86,7 @@ int __command_not_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() != e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
@@ -93,7 +94,7 @@ int __command_not_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() != e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
@@ -101,7 +102,7 @@ int __command_not_equals(std::vector<Token> tokens, int i)
         if (e1.getStr() != e2.getStr())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else
@@ -113,7 +114,7 @@ int __command_not_equals(std::vector<Token> tokens, int i)
     Runtime.stack_push(StackElement(0));
 }
 
-int __command_add(std::vector<Token> tokens, int i)
+void __command_add(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -121,27 +122,27 @@ int __command_add(std::vector<Token> tokens, int i)
     if (e1.getTypeStr() == "INT" && e2.getTypeStr() == "INT")
     {
         Runtime.stack_push(StackElement(e1.getInt()+e2.getInt()));
-        return 0;
+        return;
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
     {
         Runtime.stack_push(StackElement(e1.getStr()+e2.getStr()));
-        return 0;
+        return;
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
     {
         Runtime.stack_push(StackElement(e1.getStr()+e2.getStr(), true));
-        return 0;
+        return;
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
     {
         Runtime.stack_push(StackElement(e1.getStr()+e2.getStr()));
-        return 0;
+        return;
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
     {
         Runtime.stack_push(StackElement(e1.getStr()+e2.getStr()));
-        return 0;
+        return;
     }
     else
     {
@@ -150,7 +151,7 @@ int __command_add(std::vector<Token> tokens, int i)
     }
 }
 
-int __command_sub(std::vector<Token> tokens, int i)
+void __command_sub(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -158,7 +159,7 @@ int __command_sub(std::vector<Token> tokens, int i)
     if (e1.getTypeStr() == "INT" && e2.getTypeStr() == "INT")
     {
         Runtime.stack_push(StackElement(e1.getInt()-e2.getInt()));
-        return 0;
+        return;
     }
     else
     {
@@ -167,7 +168,7 @@ int __command_sub(std::vector<Token> tokens, int i)
     }
 }
 
-int __command_mul(std::vector<Token> tokens, int i)
+void __command_mul(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -175,7 +176,7 @@ int __command_mul(std::vector<Token> tokens, int i)
     if (e1.getTypeStr() == "INT" && e2.getTypeStr() == "INT")
     {
         Runtime.stack_push(StackElement(e1.getInt()*e2.getInt()));
-        return 0;
+        return;
     }
     else
     {
@@ -184,7 +185,7 @@ int __command_mul(std::vector<Token> tokens, int i)
     }
 }
 
-int __command_div(std::vector<Token> tokens, int i)
+void __command_div(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -192,7 +193,7 @@ int __command_div(std::vector<Token> tokens, int i)
     if (e1.getTypeStr() == "INT" && e2.getTypeStr() == "INT")
     {
         Runtime.stack_push(StackElement(e1.getInt()/e2.getInt()));
-        return 0;
+        return;
     }
     else
     {
@@ -201,7 +202,7 @@ int __command_div(std::vector<Token> tokens, int i)
     }
 }
 
-int __command_mod(std::vector<Token> tokens, int i)
+void __command_mod(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -209,7 +210,7 @@ int __command_mod(std::vector<Token> tokens, int i)
     if (e1.getTypeStr() == "INT" && e2.getTypeStr() == "INT")
     {
         Runtime.stack_push(StackElement(fmod(e1.getInt(),e2.getInt())));
-        return 0;
+        return;
     }
     else
     {
@@ -218,7 +219,7 @@ int __command_mod(std::vector<Token> tokens, int i)
     }
 }
 
-int __command_less(std::vector<Token> tokens, int i)
+void __command_less(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -228,7 +229,7 @@ int __command_less(std::vector<Token> tokens, int i)
         if (e1.getInt() < e2.getInt())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
@@ -236,7 +237,7 @@ int __command_less(std::vector<Token> tokens, int i)
         if (e1.getStr().size() < e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
@@ -244,7 +245,7 @@ int __command_less(std::vector<Token> tokens, int i)
         if (e1.getStr().size() < e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
@@ -252,7 +253,7 @@ int __command_less(std::vector<Token> tokens, int i)
         if (e1.getStr().size() < e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
@@ -260,7 +261,7 @@ int __command_less(std::vector<Token> tokens, int i)
         if (e1.getStr().size() < e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else
@@ -272,7 +273,7 @@ int __command_less(std::vector<Token> tokens, int i)
     Runtime.stack_push(StackElement(0));
 }
 
-int __command_greater(std::vector<Token> tokens, int i)
+void __command_greater(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -282,7 +283,7 @@ int __command_greater(std::vector<Token> tokens, int i)
         if (e1.getInt() > e2.getInt())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
@@ -290,7 +291,7 @@ int __command_greater(std::vector<Token> tokens, int i)
         if (e1.getStr().size() > e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
@@ -298,7 +299,7 @@ int __command_greater(std::vector<Token> tokens, int i)
         if (e1.getStr().size() > e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
@@ -306,7 +307,7 @@ int __command_greater(std::vector<Token> tokens, int i)
         if (e1.getStr().size() > e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
@@ -314,7 +315,7 @@ int __command_greater(std::vector<Token> tokens, int i)
         if (e1.getStr().size() > e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else
@@ -326,7 +327,7 @@ int __command_greater(std::vector<Token> tokens, int i)
     Runtime.stack_push(StackElement(0));
 }
 
-int __command_less_or_equals(std::vector<Token> tokens, int i)
+void __command_less_or_equals(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -336,7 +337,7 @@ int __command_less_or_equals(std::vector<Token> tokens, int i)
         if (e1.getInt() <= e2.getInt())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
@@ -344,7 +345,7 @@ int __command_less_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() <= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
@@ -352,7 +353,7 @@ int __command_less_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() <= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
@@ -360,7 +361,7 @@ int __command_less_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() <= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
@@ -368,7 +369,7 @@ int __command_less_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() <= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else
@@ -380,7 +381,7 @@ int __command_less_or_equals(std::vector<Token> tokens, int i)
     Runtime.stack_push(StackElement(0));
 }
 
-int __command_greater_or_equals(std::vector<Token> tokens, int i)
+void __command_greater_or_equals(std::vector<Token> tokens, int i)
 {
     StackElement e1 = Runtime.stack_peek();
     StackElement e2 = Runtime.stack_peek();
@@ -390,7 +391,7 @@ int __command_greater_or_equals(std::vector<Token> tokens, int i)
         if (e1.getInt() >= e2.getInt())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "STRING")
@@ -398,7 +399,7 @@ int __command_greater_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() >= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "WORD")
@@ -406,7 +407,7 @@ int __command_greater_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() >= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "WORD" && e2.getTypeStr() == "STRING")
@@ -414,7 +415,7 @@ int __command_greater_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() >= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else if (e1.getTypeStr() == "STRING" && e2.getTypeStr() == "WORD")
@@ -422,7 +423,7 @@ int __command_greater_or_equals(std::vector<Token> tokens, int i)
         if (e1.getStr().size() >= e2.getStr().size())
         {
             Runtime.stack_push(StackElement(1));
-            return 0;
+            return;
         }
     }
     else

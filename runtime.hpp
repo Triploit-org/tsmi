@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "stackelement.hpp"
+#include "tstring.hpp"
 
 class Runtime
 {
@@ -13,6 +14,10 @@ public:
     int stack_index = 0;
     bool debug = false;
     int line_number = 1;
+
+	std::ifstream t;
+    std::vector<std::string> v;
+	std::vector<std::string> prae;
 
     bool _continue = false;
     bool _break = false;
@@ -37,25 +42,144 @@ public:
         stack_index = index;
     }
 
-    std::vector<std::string> readFile(std::string fname)
+	std::vector<std::string> readFile(std::string fname)
     {
-        std::ifstream t(fname);
-        FILE_CONTENT = std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		if (debug)
+			std::cout << "read file: " << fname << std::endl;
 
-        std::vector<std::string> v;
+        t = std::ifstream(fname);
+
+		if (!t.is_open())
+		{
+			std::cout << "error: cant open file " << fname << std::endl;
+			exit(1);
+		}
+
+        FILE_CONTENT = std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
         std::string line;
+		tri::string tline;
 
         t.close();
         t.open(fname);
 
         while (std::getline(t, line))
         {
-            // std::cout << line << std::endl;
-            v.push_back(line);
+			tline = tri::string(line).trim();
+
+			if (tline.startsWith("#"))
+			{
+				tri::string command = tline.cxs().substr(1, tline.length()-1);
+				tri::string arg = command.split(' ')[0].trim();
+
+				if (debug)
+					std::cout << "prae: command: " << command.cxs() << std::endl;
+
+				if (arg.cxs() == "need")
+				{
+					std::string file = tri::string(command.cxs().substr(4, command.length()-1)).trim().toLower().cxs();
+					bool found = false;
+
+					if (debug)
+						std::cout << "prae: command: need: file: " << file << std::endl;
+
+					for (std::string f : prae)
+					{
+						if (f == file)
+							found = true;
+					}
+
+					if (!found)
+					{
+						prae.push_back(file);
+						std::vector<std::string> ls = readFile2(file);
+
+						tline = "";
+						arg = "";
+					}
+
+				}
+			}
+			else
+            	v.push_back(line);
         }
 
         return v;
     }
+
+	std::vector<std::string> readFile2(std::string fname)
+	{
+		std::ifstream t(fname);
+
+		if (debug)
+			std::cout << "read file: " << fname << std::endl;
+
+		t = std::ifstream(fname);
+
+		if (!t.is_open())
+		{
+			std::cout << "error: cant open file " << fname << std::endl;
+			exit(1);
+		}
+
+		FILE_CONTENT = std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		std::string line;
+		tri::string tline;
+
+		t.close();
+		t.open(fname);
+
+		while (std::getline(t, line))
+		{
+			tline = tri::string(line).trim();
+
+			if (tline.startsWith("#"))
+			{
+				tri::string command = tline.cxs().substr(1, tline.length()-1);
+				tri::string arg = command.split(' ')[0].trim();
+
+				if (debug)
+					std::cout << "prae: command: " << command.cxs() << std::endl;
+
+				if (arg.cxs() == "need")
+				{
+					std::string file = tri::string(command.cxs().substr(4, command.length()-1)).trim().toLower().cxs();
+					bool found = false;
+
+					if (debug)
+						std::cout << "prae: command: need: file: " << file << std::endl;
+
+					for (std::string f : prae)
+					{
+						if (f == file)
+							found = true;
+					}
+
+					if (!found)
+					{
+						if (debug) std::cout << std::endl;
+						prae.push_back(file);
+						std::vector<std::string> ls = readFile(file);
+
+						for (std::string s : ls)
+						{
+							if (debug)
+								std::cout << "INC] " << s << std::endl;
+							v.push_back(s);
+						}
+						if (debug) std::cout << std::endl;
+
+						tline = "";
+						arg = "";
+					}
+
+				}
+			}
+			else
+				v.push_back(line);
+		}
+
+		return v;
+	}
 
     bool is_number(const std::string s)
     {

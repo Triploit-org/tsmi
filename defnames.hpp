@@ -4,17 +4,19 @@
 #include <iostream>
 #include <vector>
 
-int __command_equals(std::vector<Token> tokens, int i);
-int __command_not_equals(std::vector<Token> tokens, int i);
-int __command_add(std::vector<Token> tokens, int i);
-int __command_sub(std::vector<Token> tokens, int i);
-int __command_mul(std::vector<Token> tokens, int i);
-int __command_div(std::vector<Token> tokens, int i);
-int __command_mod(std::vector<Token> tokens, int i);
-int __command_less(std::vector<Token> tokens, int i);
-int __command_greater(std::vector<Token> tokens, int i);
-int __command_less_or_equals(std::vector<Token> tokens, int i);
-int __command_greater_or_equals(std::vector<Token> tokens, int i);
+#include "token.hpp"
+
+void __command_equals(std::vector<Token> tokens, int i);
+void __command_not_equals(std::vector<Token> tokens, int i);
+void __command_add(std::vector<Token> tokens, int i);
+void __command_sub(std::vector<Token> tokens, int i);
+void __command_mul(std::vector<Token> tokens, int i);
+void __command_div(std::vector<Token> tokens, int i);
+void __command_mod(std::vector<Token> tokens, int i);
+void __command_less(std::vector<Token> tokens, int i);
+void __command_greater(std::vector<Token> tokens, int i);
+void __command_less_or_equals(std::vector<Token> tokens, int i);
+void __command_greater_or_equals(std::vector<Token> tokens, int i);
 
 std::vector<std::string> defined_names;
 
@@ -33,7 +35,7 @@ std::vector<std::string> operator_names =
     ">="
 };
 
-int (*operator_functions[])(std::vector<Token> tokens, int i) =
+void (*operator_functions[])(std::vector<Token> tokens, int i) =
 {
     &__command_equals,
     &__command_not_equals,
@@ -65,6 +67,8 @@ int __command_pick(std::vector<Token> tokens, int i);
 int __command_index(std::vector<Token> tokens, int i);
 int __command__else(std::vector<Token> tokens, int i);
 int __command_size(std::vector<Token> tokens, int i);
+int __command_type(std::vector<Token> tokens, int i);
+int __command_file(std::vector<Token> tokens, int i);
 
 std::vector<std::string> keyword_names =
 {
@@ -84,7 +88,9 @@ std::vector<std::string> keyword_names =
     "pick",
     "index",
     "else",
-	"size"
+	"size",
+	"type",
+	"file"
 };
 
 int (*keyword_functions[])(std::vector<Token> tokens, int i) =
@@ -105,7 +111,9 @@ int (*keyword_functions[])(std::vector<Token> tokens, int i) =
     &__command_pick,
     &__command_index,
     &__command__else,
-    &__command_size
+    &__command_size,
+	&__command_type,
+	&__command_file
 };
 
 #endif
