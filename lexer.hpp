@@ -61,7 +61,6 @@ public:
 
         for (int i = 0; i < ncode.size(); i++)
         {
-
 			if (ncode[i] == '*' && ncode[i+1] == '*')
 			{
 				if (Runtime.debug) std::cout << "=== COMMANT START ===" << std::endl;

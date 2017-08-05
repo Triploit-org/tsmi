@@ -434,4 +434,22 @@ int __command_index(std::vector<Token> tokens, int i)
 
 	return 0;
 }
+
+int __command_charr(std::vector<Token> tokens, int i)
+{
+    StackElement se = Runtime.stack_peek();
+
+    if (se.isString())
+        for (char c : se.getStr())
+        {
+            Runtime.stack_push(StackElement(std::string(c+""), false, false, false));
+        }
+    else
+    {
+        std::cout << "error: charr: string expected, found " << se.getTypeStr() << std::endl;
+        exit(1);
+    }
+
+	return 0;
+}
 #endif

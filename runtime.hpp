@@ -22,6 +22,7 @@ public:
     bool _continue = false;
     bool _break = false;
     bool _return = false;
+    bool __FUNCTION_KEYWORDS = false;
 
     std::string FILE_NAME;
     std::string FILE_CONTENT;
@@ -82,9 +83,12 @@ public:
 					if (debug)
 						std::cout << "prae: command: need: file: " << file << std::endl;
 
+                    if (file == fname)
+                        found = true;
+
 					for (std::string f : prae)
 					{
-						if (f == file)
+						if ((f == file || file == fname) & !found)
 							found = true;
 					}
 
@@ -98,6 +102,10 @@ public:
 					}
 
 				}
+                else if (arg.cxs() == "functions_as_keywords")
+                {
+                    __FUNCTION_KEYWORDS = true;
+                }
 			}
 			else
             	v.push_back(line);

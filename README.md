@@ -24,4 +24,3 @@ Fibonacci:
 
 14 fib!
 ```
-

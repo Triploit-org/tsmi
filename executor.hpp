@@ -5,6 +5,7 @@
 #include "token.hpp"
 #include "runtime.hpp"
 #include "variables.hpp"
+#include "functions.hpp"
 
 class Executor
 {
@@ -85,6 +86,9 @@ public:
                     break;
                 case TT_WORD:
                     Runtime.stack_push(StackElement(tokens[i].getValue(), true, false, false));
+
+                    if (Runtime.__FUNCTION_KEYWORDS && _exists_function(tokens[i].getValue()))
+                        parse_keyword("run", tokens, i);
                     break;
                 case TT_INTEGER:
                     Runtime.stack_push(StackElement(std::stold(tokens[i].getValue())));
@@ -96,8 +100,8 @@ public:
                     Runtime.stack_push(StackElement(tokens[i].getValue(), false, true, false));
                     break;
                 default:
-                    // if (Runtime.debug)
-                    //     std::cout << "INTERPRETING: RUN: " << tokens[i].getValue();
+                    if (Runtime.debug)
+                        std::cout << "INTERPRETING: RUN: " << tokens[i].getValue();
 
                     switch(tokens[i].getType())
                     {

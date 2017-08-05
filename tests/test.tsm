@@ -1,4 +1,5 @@
 #comment
+#functions_as_keywords
 #need test.tsm
 
 [
@@ -30,5 +31,5 @@
 
 [
     "Rufe test auf." outl
-    test run
+    test
 ]!

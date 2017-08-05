@@ -69,6 +69,7 @@ int __command__else(std::vector<Token> tokens, int i);
 int __command_size(std::vector<Token> tokens, int i);
 int __command_type(std::vector<Token> tokens, int i);
 int __command_file(std::vector<Token> tokens, int i);
+int __command_charr(std::vector<Token> tokens, int i);
 
 std::vector<std::string> keyword_names =
 {
@@ -90,7 +91,8 @@ std::vector<std::string> keyword_names =
     "else",
 	"size",
 	"type",
-	"file"
+	"file",
+	"charr"
 };
 
 int (*keyword_functions[])(std::vector<Token> tokens, int i) =
@@ -113,7 +115,8 @@ int (*keyword_functions[])(std::vector<Token> tokens, int i) =
     &__command__else,
     &__command_size,
 	&__command_type,
-	&__command_file
+	&__command_file,
+    &__command_charr
 };
 
 #endif

@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <unistd.h>
+
+bool _exists_function(std::string name);
+
 #include "runtime.hpp"
 #include "token.hpp"
 #include "defnames.hpp"
@@ -91,4 +94,15 @@ int input()
     }
 
 	return 0;
+}
+
+bool _exists_function(std::string name)
+{
+    for (function f : Functions.functions)
+    {
+        if (name == f.name)
+            return true;
+    }
+
+    return false;
 }

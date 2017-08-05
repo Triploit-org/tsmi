@@ -5,20 +5,17 @@
 #include "lexer.hpp"
 #include "executor.hpp"
 
-class Funtions
+struct function
 {
-private:
-    struct function
-    {
-        std::string name = "";
-        std::vector<Token> content;
-    };
+    std::string name = "";
+    std::vector<Token> content;
+};
 
-    std::vector<std::string> names;
-    std::vector<std::string> contents;
+class Functions
+{
+public:
     std::vector<function> functions;
 
-public:
     void runFunction(std::string name)
     {
         for (function f : functions)
@@ -32,6 +29,17 @@ public:
 
         std::cout << "error: function " << name << " not defined.";
         exit(1);
+    }
+
+    bool existsFunction(std::string name)
+    {
+        for (function f : functions)
+        {
+            if (name == f.name)
+                return true;
+        }
+
+        return false;
     }
 
     std::vector<Token> getContent(std::string name)
