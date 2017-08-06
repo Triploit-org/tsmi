@@ -15,23 +15,42 @@ func remove
   sudo rm /usr/bin/tsmi
 }
 
-func werror
-{
-  @echo There is no Windows-Support yet.
-  @echo Install this package manually.
-}
-
 func install_win
 {
-  &werror
+    <[
+        @echo off
+        IF NOT EXIST "C:\Program Files (x86)\Triploit Software" (
+            MKDIR "C:\Program Files (x86)\Triploit Software"
+            ECHO Creating Triploit Software directory...
+        ) ELSE (
+            ECHO Program Directory exists...
+        )
+
+        IF NOT EXIST "bin" (
+            mkdir bin
+        )
+
+        make
+        echo Move executable....
+        move ".\bin\tsmi.exe" "C:\Program Files (x86)\Triploit Software\"
+        rmdir /s .\bin\
+    ]>
 }
 
 func remove_win
 {
-  &werror
+    <[
+        @echo off
+        IF NOT EXIST "C:\Program Files (x86)\Triploit Software\tsmi.exe" (
+            ECHO Warning: There is nothing to remove.
+        ) ELSE (
+            ECHO Removing...
+            del "C:\Program Files (x86)\Triploit Software\tsmi.exe"
+        )
+    ]>
 }
 
 func update_win
 {
-  &werror
+  &install
 }
