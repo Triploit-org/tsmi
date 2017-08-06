@@ -41,7 +41,8 @@ std::vector<std::string> keywords =
     "continue",
 	"size",
 	"type",
-	"file"
+	"file",
+    "charr"
 };
 
 std::vector<std::string> operators =

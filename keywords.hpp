@@ -116,6 +116,7 @@ int __command_while(std::vector<Token> tokens, int i)
     if (e1.isCode() && e2.isCode())
     {
         std::vector<Token> tokens = Lexer.lex({e2.getStr()});
+        std::vector<Token> tokens2 = Lexer.lex({e1.getStr()});
 
         while (true)
         {
@@ -128,7 +129,7 @@ int __command_while(std::vector<Token> tokens, int i)
             }
 
             if (e.getInt() == 1)
-                Executor.execute(Lexer.lex({e1.getStr()}), true, false);
+                Executor.execute(tokens2, true, false);
             else
                 break;
 
@@ -440,10 +441,21 @@ int __command_charr(std::vector<Token> tokens, int i)
     StackElement se = Runtime.stack_peek();
 
     if (se.isString())
+    {
         for (char c : se.getStr())
         {
-            Runtime.stack_push(StackElement(std::string(c+""), false, false, false));
+            std::string p = "";
+            p += c;
+
+            if (Runtime.debug)
+                std::cout << "charr: push(" << se.getStr() << "/" << c << "): " << p << std::endl;
+
+            Runtime.stack_push(StackElement(p, false, false, false));
         }
+
+
+        Runtime.stack_push(StackElement(se.getStr().size()));
+    }
     else
     {
         std::cout << "error: charr: string expected, found " << se.getTypeStr() << std::endl;
