@@ -1,0 +1,17 @@
+name: "Triploit Stack Machine Interpreter (TSMI)"
+version: "0.0.1a"
+description: "A tiny stack based programming language."
+information: ""
+
+authors:
+  - survari
+
+type:
+  name: make
+
+products:
+  - ./bin/tsmi: "/usr/bin/tsmi"
+
+gituser: triploit
+server: github.com
+reponame: tsmi
